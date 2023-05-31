@@ -758,6 +758,13 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
   pointer-events: none;
 }
 
+.vis-fixed-time {
+  background-color: #FF7F6E;
+  width: 2px;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .vis-rolling-mode-btn {
   height: 40px;
   width: 40px;

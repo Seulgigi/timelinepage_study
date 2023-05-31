@@ -8615,7 +8615,7 @@ Range.prototype.startRolling = function () {
     me.currentTimeTimer = setTimeout(update, interval);
   }
 
-  update();
+  // update();
 };
 
 /**
@@ -11558,8 +11558,8 @@ CurrentTime.prototype._create = function () {
   var bar = document.createElement('div');
   bar.className = 'vis-current-time';
   bar.style.position = 'absolute';
-  bar.style.top = '0px';
-  bar.style.height = '100%';
+  bar.style.top = '0'; // top 높이에 맞게 내리기
+  bar.style.height = '80%';
 
   this.bar = bar;
 };
@@ -11592,18 +11592,22 @@ CurrentTime.prototype.setOptions = function (options) {
  */
 CurrentTime.prototype.redraw = function () {
   if (this.options.showCurrentTime) {
-    var parent = this.body.dom.backgroundVertical;
+    var parent = this.body.dom.center;
     if (this.bar.parentNode != parent) {
       // attach to the dom
       if (this.bar.parentNode) {
         this.bar.parentNode.removeChild(this.bar);
       }
+
+
       parent.appendChild(this.bar);
 
       this.start();
     }
 
-    var now = this.options.moment(new Date().valueOf() + this.offset);
+    // 정해진 시간 입력하는 구간
+    var fixedTime = new Date(2023, 4, 29, 16).valueOf();
+    var now = this.options.moment(fixedTime);
     var x = this.body.util.toScreen(now);
 
     var locale = this.options.locales[this.options.locale];
@@ -11818,6 +11822,18 @@ Group.prototype._create = function () {
   this.dom.marker.style.position = 'absolute';
   this.dom.marker.innerHTML = '';
   this.dom.background.appendChild(this.dom.marker);
+
+  var line = document.createElement('div');
+  line.className = 'vis-line';
+  line.style.position = 'absolute';
+  line.style.top = '0';
+  line.style.height = '80%';
+  line.style.border = '1px solid black';
+  var fixedTime = new Date(2023, 4, 31, 20).valueOf();
+  var now = new Date().valueOf();
+  var leftPosition = ((fixedTime - now) / (1000 * 60 * 60 * 24)) * 100; // 현재 시간과의 차이를 비율로 계산하여 위치 조정
+  line.style.left = leftPosition + '%';
+  this.dom.foreground.appendChild(line);
 };
 
 /**
